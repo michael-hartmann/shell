@@ -73,6 +73,8 @@ def parse_line(line):
     if len(tokens) > 1:
         args = tokens[1:]
 
+    if cmd[0] == "#":
+        return 0
     if cmd in builtins:
         return builtins[cmd](args)
     else:
@@ -89,6 +91,8 @@ while True:
         prompt   = "%s@%s:%s$ " % (user, hostname, cwd)
         line = input(prompt)
         status = parse_line(line)
-    except (EOFError, KeyboardInterrupt):
+    except EOFError:
         print()
         exit(0)
+    except KeyboardInterrupt:
+        pass
